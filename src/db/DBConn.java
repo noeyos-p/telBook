@@ -6,6 +6,7 @@ import java.sql.SQLException;
 
 public class DBConn {
     private static Connection dbConn;
+
     // Spring 에서 이걸써요
     public static Connection getConnection() {
         // db 연결시도
@@ -30,5 +31,18 @@ public class DBConn {
             }
         }
         return dbConn;
+    }
+
+    // DB 연결 종료하기
+    public static void close() {
+        try {
+            if (dbConn != null) {
+                // 연결되어 있다면
+                dbConn.close();
+            }
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+        dbConn = null;
     }
 }
