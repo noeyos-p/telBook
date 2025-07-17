@@ -19,9 +19,32 @@ public class TelBookService implements CrudInterface{
     // sql -> select * from telbook
 
     @Override
-    public int InsertData(TelDto dto) {
+    public int insertData(TelDto dto) {
         System.out.println("[TelBookService.InsertData]");
         // 이렇게 달아놓으면 어떤 클래스에 어떤 메서드에 들어와 있구나를 알 수 있음
+
+        try {
+            sql = "INSERT INTO telbook(name, age, address, phone) ";
+            // sql 구문은 공백을 하나 꼭 넣어주자 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ^  -> 이부분
+            sql = sql + "VALUES(?, ?, ?, ?)";
+
+            psmt = conn.prepareStatement(sql);
+            // ? 각 자리를 Mapping 해 준다.
+            psmt.setString(1, dto.getName());
+            psmt.setInt(2, dto.getAge());
+            psmt.setString(3, dto.getAddress());
+            psmt.setString(4, dto.getPhone());
+
+            // 쿼리 실행하기
+
+            int result = psmt.executeUpdate();
+            psmt.close();
+            return result;
+        } catch (SQLException e) {
+            System.out.println(e.toString());
+        }
+
+
         return 0;
     }
 
